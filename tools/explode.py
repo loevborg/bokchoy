@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+DIR = "tmp"
+
 # Takes as input a single markdown document containing one or more
 # recipes, separated by headings, and writes each recipe in
 # a separate markdown file.
@@ -34,7 +36,7 @@ class RecipeFinder:
         title = lines[0].strip()
         body = self.strip_whitespace(lines[1:])
 
-        fn = "recipe_%06d.mkd" % self.count
+        fn = DIR + "/recipe_%06d.mkd" % self.count
         out = open(fn, "w")
 
         print >>out, title
@@ -61,7 +63,7 @@ class RecipeFinder:
 
         self.process_recipe(recipe[:-1])
 
-lines = open("recipes.txt","r").readlines()
+lines = open("data/recipes.txt","r").readlines()
 
 finder = RecipeFinder()
 finder.find_recipes(lines)

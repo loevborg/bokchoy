@@ -5,7 +5,7 @@
 var fs = require('fs');
 var glob = require('glob');
 var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database('test.db');
+var db = new sqlite3.Database('data/recipes.db');
 var pagedown = require("pagedown");
 var converter = new pagedown.Converter();
 
