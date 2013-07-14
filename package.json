@@ -7,6 +7,9 @@
   },
   "dependencies": {
     "express": "3.2.6",
-    "hjs": "*"
+    "hjs": "*",
+    "ejs-locals": "~1.0.2",
+    "sqlite3": "~2.1.12",
+    "pagedown": "~1.1.0"
   }
 }
