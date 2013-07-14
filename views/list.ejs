@@ -1,0 +1,9 @@
+<% layout('layout') -%>
+<div class="span6">
+<h2>All the recipes</h1>
+<ul class="nav nav-tabs nav-stacked">
+<% recipes.forEach(function(recipe){ %>
+  <li><a href="/recipes/<%= recipe.id %>"><%= recipe.title %></a></li>
+<% }); %>
+</ul>
+</div>
