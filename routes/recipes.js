@@ -40,30 +40,12 @@ exports.view = function(req, res){
         next = undefined;
       }
 
-    db.get("select title, filename from recipes where id=?", id, function(err,row){
-      fn = __dirname + "/../data/recipes/" + row.filename;
-      fs.readFile(fn,
-                  function (err,data) {
-                      if (err) {
-                          res.writeHead(404);
-                          res.end(JSON.stringify(err));
-                          return;
-                      }
+    db.get("select title, filename, body from recipes where id=?", id, function(err,row){
+                      body = converter.makeHtml(row.body);
 
-                      data = data.toString("utf8");
-                      m = data.match(/^([\s\S]+?)-{3,}([\s\S]*)/m);
-                      if (!m) {
-                          res.writeHead(404);
-                          res.end("Malformed recipe.");
-                          return;
-                      }
-                      title = m[1];
-                      body = converter.makeHtml(m[2]);
-
-                      res.render('recipe', {recipe: { title: title,
+                      res.render('recipe', {recipe: { title: row.title,
                           body: body,
                           prev: prev, next: next }});
-                      });
                       });
                       });
   });
