@@ -1,0 +1,41 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Example</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <link href="css/bootstrap.css" rel="stylesheet">
+  </head>
+  <body ng-app="main" >
+  <div ng-controller="BarCtrl">
+    <h1>Recipes</h1>
+    <ul>
+      <li ng-repeat="recipe in results">
+        [{{$index}}] - {{ recipe.name }} - {{ recipe.time }} minutes
+        <ul>
+          <li ng-repeat="ingredient in recipe.ingredients">[{{$index}}] - {{ ingredient }}</li>
+        </ul>
+      </li>
+    </ul>
+
+
+
+    <form>
+      <input type="text" ng-model="newName" ng-change="addItem()">
+    </form>
+
+
+
+  </div>
+    <!--[if lt IE 7]>
+      <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+    <![endif]-->
+    <script src="js/angular.js"></script>
+    <script src="js/bundle.js"></script>
+  </body>
+</html>

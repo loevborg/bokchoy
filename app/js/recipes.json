@@ -1,0 +1,17 @@
+[
+	{
+		"name": "Choucroutte",
+		"time": 56,
+		"ingredients": ["tomato", "onions", "bacon", "cheese"]
+	},
+	{
+		"name": "Tomato salads",
+		"time": 10,
+		"ingredients": ["tomato", "onions"]
+	},
+	{
+		"name": "Crêpes",
+		"time": 10,
+		"ingredients": ["milk", "eggs", "flour", "vanilla"]
+	}
+]

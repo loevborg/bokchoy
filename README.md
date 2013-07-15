@@ -1,12 +1,25 @@
 bokchoy
 ---------
 
-A simple cookbook web application based on Markdown. *bokchoy* is written in JavaScript.
+A simple cookbook web application based on Markdown. *bokchoy* is written in JavaScript and uses Angular.js.
 
 Requires: node.js
 
-To create a sample sqlite3 database `data/recipes.db`, run
+## setup
 
-    ./tools/sample-db.sh
+Make sure you have grunt-cli installed globally, like so:
 
-from the project's root directory.
+    sudo npm install -g grunt
+
+and make sure that `npm`'s bin directory is in your path
+
+    which grunt
+
+Then get the node modules:
+  
+    npm install
+
+To start the web server:
+
+    grunt
+    open -a 'google chrome' http://localhost:9000
