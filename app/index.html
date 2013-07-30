@@ -12,30 +12,13 @@
     <link href="css/bootstrap.css" rel="stylesheet">
   </head>
   <body ng-app="main" >
-  <div ng-controller="BarCtrl">
-    <h1>Recipes</h1>
-    <ul>
-      <li ng-repeat="recipe in results">
-        [{{$index}}] - {{ recipe.name }} - {{ recipe.time }} minutes
-        <ul>
-          <li ng-repeat="ingredient in recipe.ingredients">[{{$index}}] - {{ ingredient }}</li>
-        </ul>
-      </li>
-    </ul>
 
+  <div ng-view></div>
 
-
-    <form>
-      <input type="text" ng-model="newName" ng-change="addItem()">
-    </form>
-
-
-
-  </div>
     <!--[if lt IE 7]>
       <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
     <![endif]-->
     <script src="js/angular.js"></script>
-    <script src="js/bundle.js"></script>
+    <script src="js/app.js"></script>
   </body>
 </html>
