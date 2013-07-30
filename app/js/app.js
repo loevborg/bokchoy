@@ -2,8 +2,6 @@
 
 var app = angular.module('main', []);
 
-// achso!
-
 app.config(["$routeProvider", function($routeProvider){
   $routeProvider.when("/", {
     templateUrl: "views/all.html",
@@ -26,34 +24,45 @@ app.service("RecipesService", function($http) {
     retrieve: function() {
       var promise = $http.get('js/recipes.json').
       then(function(response) {
-        console.log("foo bar");
         recipes = response.data;
         });
       return promise;
     },
     getAll: function() {
       return recipes;
+    },
+    getOne: function (id) {
+      for (var i=0; i<recipes.length; i++) {
+        if (recipes[i].id == id) {
+          return recipes[i];
+        }
+      };
+      return null;
     }
-//    getOne: function (id) {
-//    }
     };
 });
 
 app.controller('AllRecipesCtrl', function($scope, RecipesService, $timeout){
   var r;
 
-  console.log("blubb");
-
   r = RecipesService.getAll();
-  if ( r ) {
+  if ( r ) { // are the recipes already loaded?
     $scope.recipes = r;
   } else {
-    RecipesService.retrieve().then(function() {
+    RecipesService.retrieve().then(function() { // defer
       $scope.recipes = RecipesService.getAll();
     });
   }
 });
 
-app.controller('DetailsCtrl', function($scope){
-  $scope.recipe = {title:"bla", body:"lalal"};
+app.controller('DetailsCtrl', function($scope,$routeParams,RecipesService){
+  var id = $routeParams.id;
+
+  if ( RecipesService.getAll() ) { // are the recipes already loaded?
+    $scope.recipe = RecipesService.getOne(id);
+  } else {
+    RecipesService.retrieve().then(function() { // defer
+      $scope.recipe = RecipesService.getOne(id);
+    });
+  }
 });
