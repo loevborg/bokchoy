@@ -33,14 +33,9 @@ app.service("RecipesService", function($http) {
       return recipes;
     },
     getOne: function (id) {
-      for (var i=0; i<recipes.length; i++) {
-        if (recipes[i].id == id) {
-          return recipes[i];
-        }
-      };
-      return null;
+      return _.find(recipes, function(r) { return r.id == id });
     }
-    };
+  };
 });
 
 app.controller('AllRecipesCtrl', function($scope, RecipesService, $timeout) {
