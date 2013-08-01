@@ -1,9 +1,9 @@
-bokchoy
+Bokchoy
 ---------
 
 A simple cookbook web application based on Markdown. *bokchoy* is written in JavaScript and uses Angular.js.
 
-Requires: node.js
+Requires: python (for serving the html+assets)
 
 ## setup
 

@@ -2,8 +2,9 @@
 
 var app = angular.module('main', []);
 
-app.config(["$routeProvider", function($routeProvider){
-  $routeProvider.when("/", {
+app.config(["$routeProvider", function($routeProvider) {
+  $routeProvider
+  .when("/", {
     templateUrl: "views/all.html",
     controller: "AllRecipesCtrl"
   })
@@ -25,7 +26,7 @@ app.service("RecipesService", function($http) {
       var promise = $http.get('js/recipes.json').
       then(function(response) {
         recipes = response.data;
-        });
+      });
       return promise;
     },
     getAll: function() {
@@ -42,7 +43,7 @@ app.service("RecipesService", function($http) {
     };
 });
 
-app.controller('AllRecipesCtrl', function($scope, RecipesService, $timeout){
+app.controller('AllRecipesCtrl', function($scope, RecipesService, $timeout) {
   var r;
 
   r = RecipesService.getAll();
@@ -55,7 +56,7 @@ app.controller('AllRecipesCtrl', function($scope, RecipesService, $timeout){
   }
 });
 
-app.controller('DetailsCtrl', function($scope,$routeParams,RecipesService){
+app.controller('DetailsCtrl', function($scope,$routeParams,RecipesService) {
   var id = $routeParams.id;
 
   if ( RecipesService.getAll() ) { // are the recipes already loaded?
