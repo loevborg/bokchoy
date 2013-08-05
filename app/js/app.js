@@ -2,6 +2,12 @@
 
 var app = angular.module('main', []);
 
+app.filter('markdown', function() {
+  return function(value) {
+    return markdown.toHTML(value || '');
+  };
+});
+
 app.config(function($routeProvider, $locationProvider) {
   $locationProvider.html5Mode(false); // maaayyybe set this to true if dropbox doesnt work
 
