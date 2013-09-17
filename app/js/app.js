@@ -2,50 +2,96 @@
 
 var app = angular.module('main', []);
 
-app.config(["$routeProvider", function($routeProvider) {
+app.filter('markdown', function() {
+  return function(value) {
+    return markdown.toHTML(value || '');
+  };
+});
+
+app.config(function($routeProvider, $locationProvider) {
+  $locationProvider.html5Mode(false); // maaayyybe set this to true if dropbox doesnt work
+
   $routeProvider
   .when("/", {
     templateUrl: "views/all.html",
     controller: "AllRecipesCtrl",
-    // by using resolve the controller gets loaded when the xhr request finished
     resolve: {
+      // recipesData is now available in the controller
       'recipesData': function(RecipesService) {
-        return RecipesService.promise;
+        return RecipesService.getIndex();
       }
     }
   })
   .when("/details/:id", {
     templateUrl: "views/details.html",
-    controller: "DetailsCtrl"
+    controller: "DetailsCtrl",
+    resolve: {
+      // $routeParams does not work because it is only available after
+      // the route has changed
+      'recipeData': function($route, RecipesService) {
+        return RecipesService.getOne($route.current.params.id);
+      }
+    }
+  })
+  .when("/new", {
+    templateUrl: "views/new.html",
+    controller: "NewRecipeCtrl"
   });
-}]);
+});
 
 // get all the recipes
 app.service("RecipesService", function($http) {
-  var recipes = new Array;
+  var getIndexPromise = function() {
+    return $http.get('js/recipes.json').then(function(response) {
+      return response.data;
+    }, function(reason) {
+      alert("Failed fetching recipes (Status " + reason.status + ")");
+    });
+  };
 
-  // a service in Angular is a singleton, so this is only executed once
-  var promise = $http.get('js/recipes.json').then(function(response) {
-    recipes = response.data;
-  }, function(reason) {
-    alert("Failed fetching recipes (Status " + reason.status + ")");
-  });
+  var getOnePromise = function(id) {
+    // getIndexPromise is a function that returns a promise
+    // thats why we can call then() here
+    return getIndexPromise().then(function(data) {
+      return _.find(data, function(r) { return r.id == id });
+    });
+  };
+
+  var getDropboxClient = function() {
+    var dbClient = new Dropbox.Client({ key: "lp0fusv15omdbx3" });
+
+    return dbClient.authenticate(function(error, client) {
+      if (error) {
+        return alert(error);
+      }
+
+      return client;
+    });
+  };
 
   return {
-    promise: promise,
-    getAll: function() {
-      return recipes;
-    },
-    getOne: function (id) {
-      return _.find(recipes, function(r) { return r.id == id });
-    }
+    getIndex: getIndexPromise,
+    getOne: getOnePromise,
+    getDropboxClient: getDropboxClient
   };
 });
 
-app.controller('AllRecipesCtrl', function($scope, $timeout, RecipesService) {
-  $scope.recipes = RecipesService.getAll();
+app.controller('NewRecipeCtrl', function($scope, RecipesService) {
+  $scope.saveRecipe = function(recipe) {
+    var dropboxClient = RecipesService.getDropboxClient();
+    dropboxClient.writeFile("BokChoyRecipes/" + (recipe.title + ".md"), recipe.description, function(error, stat) {
+      if (error) {
+        return alert(error);
+      }
+    });
+  };
 });
 
-app.controller('DetailsCtrl', function($scope, $routeParams, RecipesService) {
-  $scope.recipe = RecipesService.getOne($routeParams.id);
+app.controller('AllRecipesCtrl', function($scope, recipesData, RecipesService) {
+  $scope.recipes = recipesData;
+  RecipesService.getDropboxClient(); // we get redirected back to root after dropbox-auth
+});
+
+app.controller('DetailsCtrl', function($scope, recipeData) {
+  $scope.recipe = recipeData;
 });
