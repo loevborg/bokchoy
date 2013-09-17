@@ -2,7 +2,11 @@
 <h1>All Recipes</h1>
 <ul>
   <li ng-repeat="recipe in recipes">
-    <a href="/#/details/{{ recipe.id }}">[{{ recipe.id }}] - {{ recipe.title }} - {{ recipe.time }} minutes</a>
+    <a href="#/details/{{ recipe.id }}">[{{ recipe.id }}] - {{ recipe.title }} - {{ recipe.time }} minutes</a>
   </li>
 </ul>
 </div>
+
+<hr>
+
+<a href="#/new" class="button">Add new recipe</a>
