@@ -24,6 +24,10 @@ app.config(["$routeProvider", function($routeProvider) {
         return RecipesService.getOne($route.current.params.id);
       }
     }
+  })
+  .when("/new", {
+    templateUrl: "views/new.html",
+    controller: "NewRecipeCtrl"
   });
 }]);
 
@@ -51,7 +55,9 @@ app.service("RecipesService", function($http) {
   };
 });
 
-// when the controller is fired, recipeData is already loaded (-> resolve)
+app.controller('NewRecipeCtrl', function($scope) {
+});
+
 app.controller('AllRecipesCtrl', function($scope, recipesData) {
   $scope.recipes = recipesData;
 });
